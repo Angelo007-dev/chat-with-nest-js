@@ -21,10 +21,12 @@ export class AuthService {
                 email: dto.email,
                 password: hashed,
                 firstname: dto.firstname,
+                role: dto.role ?? 'ADMIN',
             }, select: {
                 id: true,
                 email: true,
                 firstname: true,
+                role: true,
             },
         });
         return user;
@@ -55,6 +57,7 @@ export class AuthService {
                 id:existingUser.id,
                 email: existingUser.email,
                 firstname:existingUser.firstname,
+                role:existingUser.role
             },
         };
     }
