@@ -26,3 +26,9 @@ model User {
   password  String
   role      Role    @default(USER)
 }
+
+model Article {
+  id       String @id @default(cuid())
+  nom      String @unique
+  quantity Int
+}

@@ -128,6 +128,12 @@ exports.Prisma.UserScalarFieldEnum = {
   role: 'role'
 };
 
+exports.Prisma.ArticleScalarFieldEnum = {
+  id: 'id',
+  nom: 'nom',
+  quantity: 'quantity'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -144,13 +150,19 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
   firstname: 'firstname',
   password: 'password'
 };
+
+exports.Prisma.ArticleOrderByRelevanceFieldEnum = {
+  id: 'id',
+  nom: 'nom'
+};
 exports.Role = exports.$Enums.Role = {
   USER: 'USER',
   ADMIN: 'ADMIN'
 };
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  Article: 'Article'
 };
 
 /**

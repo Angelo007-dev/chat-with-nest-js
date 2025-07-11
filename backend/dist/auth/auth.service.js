@@ -46,11 +46,11 @@ let AuthService = class AuthService {
         const { email, password } = authBody;
         const existingUser = await this.checkExistingUser(email);
         if (!existingUser) {
-            throw new Error("User not exist");
+            throw new common_1.NotFoundException("User not exist");
         }
         const isPasswordValid = await this.isValidPass(password, existingUser.password);
         if (!isPasswordValid) {
-            throw new Error("Wrong password");
+            throw new common_1.UnauthorizedException("Wrong password");
         }
         ;
         const payload = { email: existingUser.email, sub: existingUser.id };
