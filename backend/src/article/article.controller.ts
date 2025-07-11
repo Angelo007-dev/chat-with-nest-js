@@ -1,35 +1,34 @@
-// src/post/post.controller.ts
-import { Controller, Get, Post, Body, Param, Patch, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ArticleService } from './article.service';
-import { Prisma } from '@prisma/client';
+import { CreateArticleDto } from './dto/create-article.dto';
+import { UpdateArticleDto } from './dto/update-article.dto';
 
-@Controller('posts')
+@Controller('article')
 export class ArticleController {
-  constructor(private readonly postService: ArticleService) {}
+  constructor(private readonly articleService: ArticleService) {}
 
   @Post()
-  create(@Body() data: Prisma.ArticleCreateInput) {
-    return this.postService.create(data);
+  create(@Body() createArticleDto: CreateArticleDto) {
+    return this.articleService.create(createArticleDto);
   }
 
   @Get()
   findAll() {
-    return this.postService.findAll();
+    return this.articleService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.postService.findOne(id);
+    return this.articleService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() data: Prisma.ArticleUpdateInput) {
-    return this.postService.update(id, data);
+  update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
+    return this.articleService.update(+id, updateArticleDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.postService.remove(id);
+    return this.articleService.remove(+id);
   }
 }
-

@@ -3,7 +3,7 @@ import { ArticleService } from './article.service';
 import { ArticleController } from './article.controller';
 
 @Module({
+  controllers: [ArticleController],
   providers: [ArticleService],
-  controllers: [ArticleController]
 })
 export class ArticleModule {}
