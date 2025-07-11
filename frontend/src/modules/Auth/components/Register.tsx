@@ -26,8 +26,6 @@ function Register(){
     const[errors,setErrors] = useState<Partial<IRegister>>({});
 
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [confirmPasswordError, setConfirmPasswordError] = useState(false);
-    const [confirmPasswordHelperText,setConfirmpasswordHelperText] = useState('');
 
     //Validate Form
     const validateForm = useCallback(():boolean => {
@@ -51,18 +49,6 @@ function Register(){
     const [showPassword,setShowpassword] = useState(false);
     const [showConfirmPass,setShowConfirmPassword] = useState(false);
 
-    /**Error form */
-    const [emailError, setEmailError] = useState(false);
-    const [emailHelperText,setEmailHelperText] = useState('');
-
-    const [firstnameError, setFirstnameError] = useState(false);
-    const [firstnameHelperText,setFirstnameHelperText] = useState('');
-
-    const [passwordError, setPasswordError] = useState(false);
-    const [passwordHelperText,setpasswordHelperText] = useState('');
-
-    
-    
     /**Hanlers** */
 
     /*const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
@@ -110,7 +96,7 @@ function Register(){
             
         }
         catch(error){
-                toast.error((error as Error).message);
+            toast.error((error as Error).message);
         }
 
     },[validateForm,registerState,navigate]
@@ -150,8 +136,6 @@ function Register(){
                         sx={{mb:2}}
                         //value={firstname}
                         onChange={handleInputChange}
-                        error={firstnameError}
-                        helperText={firstnameHelperText}
                     />
                     <TextField
                         placeholder='Enter your password'
