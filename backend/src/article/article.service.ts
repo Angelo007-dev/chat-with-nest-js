@@ -7,26 +7,26 @@ export class ArticleService {
   constructor(private prisma: PrismaService) {}
 
   create(data: Prisma.ArticleCreateInput) {
-    return this.prisma.post.create({ data });
+    return this.prisma.article.create({ data });
   }
 
   findAll() {
-    return this.prisma.post.findMany();
+    return this.prisma.article.findMany();
   }
 
   findOne(id: string) {
-    return this.prisma.post.findUnique({ where: { id } });
+    return this.prisma.article.findUnique({ where: { id } });
   }
 
   update(id: string, data: Prisma.PostUpdateInput) {
-    return this.prisma.post.update({
+    return this.prisma.article.update({
       where: { id },
       data,
     });
   }
 
   remove(id: string) {
-    return this.prisma.post.delete({ where: { id } });
+    return this.prisma.article.delete({ where: { id } });
   }
 }
 

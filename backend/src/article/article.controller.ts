@@ -4,7 +4,7 @@ import { ArticleService } from './article.service';
 import { Prisma } from '@prisma/client';
 
 @Controller('posts')
-export class PostController {
+export class ArticleController {
   constructor(private readonly postService: ArticleService) {}
 
   @Post()
