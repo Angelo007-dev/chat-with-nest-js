@@ -3,10 +3,11 @@ import { AuthBody } from './auth.controller';
 import { PrismaService } from 'src/prisma.service';
 import { hash, compare } from 'bcrypt';
 import { CreateUserDto } from './dto/create-user.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-    constructor(private readonly prisma: PrismaService) { }
+    constructor(private readonly prisma: PrismaService, private readonly jwtService:JwtService) { }
 
     async register(dto: CreateUserDto) {
         //check double
@@ -29,7 +30,7 @@ export class AuthService {
         return user;
     }
 
-    async login({ authBody }: { authBody: AuthBody }) {
+    async login( authBody:AuthBody ) {
         const { email, password } = authBody; //to destruct the object authBody--> important terme
 
         const hashedPass = await this.hashPasssword(password);
@@ -44,8 +45,18 @@ export class AuthService {
         );
         if (!isPasswordValid) {
             throw new Error("Wrong password");
-        }
-        return existingUser;
+        };
+        //For the token
+        const payload = {email: existingUser.email,sub: existingUser.id} 
+        const token = this.jwtService.sign(payload);
+        return {
+            access_token: token,  
+            user:{
+                id:existingUser.id,
+                email: existingUser.email,
+                firstname:existingUser.firstname,
+            },
+        };
     }
 
     private async hashPasssword(password: string) {

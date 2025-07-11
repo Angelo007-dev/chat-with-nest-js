@@ -11,9 +11,9 @@ export class AuthController {
     @Post('login')
     async login(@Body() authBody: AuthBody) {
 
-        return await this.authService.login({
+        return await this.authService.login(
             authBody,
-        })
+        )
     }
     //localhost:3000/auth/register
     @Post('rergister')
