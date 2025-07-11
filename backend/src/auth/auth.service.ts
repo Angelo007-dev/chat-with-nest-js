@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { AuthBody } from './auth.controller';
 import { PrismaService } from 'src/prisma.service';
 import { hash, compare } from 'bcrypt';
@@ -35,18 +35,16 @@ export class AuthService {
     async login( authBody:AuthBody ) {
         const { email, password } = authBody; //to destruct the object authBody--> important terme
 
-        const hashedPass = await this.hashPasssword(password);
-        console.log({ hashedPass, password });
         const existingUser = await this.checkExistingUser(email);
         if (!existingUser) {
-            throw new Error("User not exist");
+            throw new NotFoundException("User not exist");
         }
         const isPasswordValid = await this.isValidPass(
             password,
-            hashedPass,
+            existingUser.password,
         );
         if (!isPasswordValid) {
-            throw new Error("Wrong password");
+            throw new UnauthorizedException("Wrong password");
         };
         //For the token
         const payload = {email: existingUser.email,sub: existingUser.id} 

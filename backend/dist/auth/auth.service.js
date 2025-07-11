@@ -44,13 +44,11 @@ let AuthService = class AuthService {
     }
     async login(authBody) {
         const { email, password } = authBody;
-        const hashedPass = await this.hashPasssword(password);
-        console.log({ hashedPass, password });
         const existingUser = await this.checkExistingUser(email);
         if (!existingUser) {
             throw new Error("User not exist");
         }
-        const isPasswordValid = await this.isValidPass(password, hashedPass);
+        const isPasswordValid = await this.isValidPass(password, existingUser.password);
         if (!isPasswordValid) {
             throw new Error("Wrong password");
         }
