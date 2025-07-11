@@ -32,7 +32,7 @@ let AuthService = class AuthService {
                 email: dto.email,
                 password: hashed,
                 firstname: dto.firstname,
-                role: dto.role ?? 'ADMIN',
+                role: dto.role ?? 'USER',
             }, select: {
                 id: true,
                 email: true,
