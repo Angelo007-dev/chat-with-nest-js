@@ -14,12 +14,15 @@ const prisma_service_1 = require("./prisma.service");
 const auth_module_1 = require("./auth/auth.module");
 const article_module_1 = require("./article/article.module");
 const article_service_1 = require("./article/article.service");
+const config_1 = require("@nestjs/config");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [user_module_1.UserModule, auth_module_1.AuthModule, article_module_1.ArticleModule, article_module_1.ArticleModule],
+        imports: [
+            config_1.ConfigModule.forRoot({ isGlobal: true }), user_module_1.UserModule, auth_module_1.AuthModule, article_module_1.ArticleModule, article_module_1.ArticleModule
+        ],
         controllers: [],
         providers: [user_service_1.UserService, prisma_service_1.PrismaService, article_service_1.ArticleService],
     })

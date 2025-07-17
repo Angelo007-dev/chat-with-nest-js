@@ -12,4 +12,9 @@ export declare class UserController {
         email: string;
         firstname: string | null;
     } | null>;
+    getAuthenticate(req: any): Promise<{
+        id: string;
+        email: string;
+        firstname: string | null;
+    } | null>;
 }

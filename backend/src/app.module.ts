@@ -5,10 +5,13 @@ import { PrismaService } from './prisma.service';
 import { AuthModule } from './auth/auth.module';
 import { ArticleModule } from './article/article.module';
 import { ArticleService } from './article/article.service';
+import { ConfigModule } from '@nestjs/config';
 
 
 @Module({
-  imports: [UserModule, AuthModule, ArticleModule, ArticleModule],
+
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }), UserModule, AuthModule, ArticleModule, ArticleModule],
   controllers: [],
   providers: [UserService, PrismaService, ArticleService],
 })

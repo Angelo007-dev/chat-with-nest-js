@@ -38,6 +38,7 @@ let ArticleService = class ArticleService {
     async findAll() {
         return await this.prisma.article.findMany({
             select: {
+                id: true,
                 nom: true,
                 quantity: true,
             },
@@ -50,6 +51,7 @@ let ArticleService = class ArticleService {
         const article = await this.prisma.article.findUnique({
             where: { id: id },
             select: {
+                id: true,
                 nom: true,
                 quantity: true,
             },
@@ -78,9 +80,9 @@ let ArticleService = class ArticleService {
         });
     }
     async remove(id) {
-        const article = await this.prisma.article.findUnique({ where: { id } });
+        const article = await this.prisma.article.findUnique({ where: { id: id } });
         if (!article) {
-            throw new common_1.NotFoundException('Error on updtae');
+            throw new common_1.NotFoundException('Error on delete');
         }
         return await this.prisma.article.delete({
             where: { id: id },

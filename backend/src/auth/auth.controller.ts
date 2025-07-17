@@ -23,9 +23,5 @@ export class AuthController {
             dto,
         )
     }
-    
-    /*@Get()
-    async authenticate(){
-        
-    }*/
+
 }

@@ -10,10 +10,12 @@ export declare class ArticleController {
         quantity: number;
     }>;
     findAll(): Promise<{
+        id: string;
         nom: string;
         quantity: number;
     }[]>;
     findOne(id: string): Promise<{
+        id: string;
         nom: string;
         quantity: number;
     }>;

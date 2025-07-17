@@ -7,9 +7,7 @@ export declare class UserService {
         email: string;
         firstname: string | null;
     }[]>;
-    getUser({ userId }: {
-        userId: string;
-    }): Promise<{
+    getUser(userId: string): Promise<{
         id: string;
         email: string;
         firstname: string | null;

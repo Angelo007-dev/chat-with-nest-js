@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
+const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 let UserController = class UserController {
     userService;
     constructor(userService) {
@@ -24,9 +25,11 @@ let UserController = class UserController {
         return this.userService.getUsers();
     }
     getUser(userId) {
-        return this.userService.getUser({
-            userId,
-        });
+        return this.userService.getUser(userId);
+    }
+    async getAuthenticate(req) {
+        const userId = req.user.userId;
+        return this.userService.getUser(userId);
     }
 };
 exports.UserController = UserController;
@@ -43,6 +46,14 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "getUser", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Get)('me'),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getAuthenticate", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [user_service_1.UserService])
