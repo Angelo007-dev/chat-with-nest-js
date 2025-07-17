@@ -5,30 +5,35 @@ import { UpdateArticleDto } from './dto/update-article.dto';
 
 @Controller('article')
 export class ArticleController {
-  constructor(private readonly articleService: ArticleService) {}
+  constructor(private readonly articleService: ArticleService) { }
 
-  @Post()
-  create(@Body() createArticleDto: CreateArticleDto) {
-    return this.articleService.create(createArticleDto);
+  @Post('new')
+  //localhost:3001/article/new
+  async create(@Body() createArticleDto: CreateArticleDto) {
+    return await this.articleService.create(createArticleDto);
   }
 
   @Get()
-  findAll() {
-    return this.articleService.findAll();
+  //localhost:3001/article
+  async findAll() {
+    return await this.articleService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.articleService.findOne(+id);
+  //localhost:3001/article
+  async findOne(@Param('id') id: string) {
+    return await this.articleService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
-    return this.articleService.update(+id, updateArticleDto);
+  //localhost:3001/article/
+  async update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
+    return await this.articleService.update(id, updateArticleDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.articleService.remove(+id);
+  //localhost:3001/article/
+  async remove(@Param('id') id: string) {
+    return await this.articleService.remove(id);
   }
 }

@@ -1,0 +1,30 @@
+import { ArticleService } from './article.service';
+import { CreateArticleDto } from './dto/create-article.dto';
+import { UpdateArticleDto } from './dto/update-article.dto';
+export declare class ArticleController {
+    private readonly articleService;
+    constructor(articleService: ArticleService);
+    create(createArticleDto: CreateArticleDto): Promise<{
+        id: string;
+        nom: string;
+        quantity: number;
+    }>;
+    findAll(): Promise<{
+        nom: string;
+        quantity: number;
+    }[]>;
+    findOne(id: string): Promise<{
+        nom: string;
+        quantity: number;
+    }>;
+    update(id: string, updateArticleDto: UpdateArticleDto): Promise<{
+        id: string;
+        nom: string;
+        quantity: number;
+    }>;
+    remove(id: string): Promise<{
+        id: string;
+        nom: string;
+        quantity: number;
+    }>;
+}
