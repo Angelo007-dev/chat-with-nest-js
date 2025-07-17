@@ -6,13 +6,17 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from './modules/Auth/components/Register';
 import Home from './components/Home';
 import SignIn from './modules/Auth/components/SignIn';
+import Articles from './components/Articles/Articles';
+import Update from './components/Articles/Update';
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home/>}></Route>
-        <Route path="/register" element={<Register/>}></Route>
-        <Route path="/login" element={<SignIn/>}></Route>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/register" element={<Register />}></Route>
+        <Route path="/login" element={<SignIn />}></Route>
+        <Route path="/article" element={<Articles />}></Route>
+        <Route path="/article/:id" element={<Update />}></Route>
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} />
     </Router>

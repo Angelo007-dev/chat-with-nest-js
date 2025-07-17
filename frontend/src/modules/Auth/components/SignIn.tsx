@@ -7,94 +7,104 @@ import { ISignIn } from '../model/auth';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import API from '../../../api/axios';
-import { Avatar, Box, Button, Container, IconButton, InputAdornment, Paper, TextField, Typography } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import { validateEmail, validatePassword } from '../../../utils/validate';
 
-const INITIAL_STATE =  {
-    email:"",
-    password:"", 
+const INITIAL_STATE = {
+    email: "",
+    password: "",
 };
 
 export default function SignIn() {
 
     //Password visibility
-    const [showPassword,setShowpassword] = useState(false);
+    const [showPassword, setShowpassword] = useState(false);
 
     //states
-    const [signInState,setSignInState] = useState<ISignIn>(INITIAL_STATE);
-    const [errors,setErrors] = useState<Partial<ISignIn>>({});
+    const [signInState, setSignInState] = useState<ISignIn>(INITIAL_STATE);
+    const [errors, setErrors] = useState<Partial<ISignIn>>({});
     const navigate = useNavigate();
     //Validate Form
-    const validateForm = useCallback(():boolean => {
+    const validateForm = useCallback((): boolean => {
         const newErrors: Partial<ISignIn> = {};
-        if(!validateEmail(signInState.email)){
-            newErrors.email="Invalid email";
+        if (!validateEmail(signInState.email)) {
+            newErrors.email = "Invalid email";
         }
-        if(!validatePassword(signInState.password)){
-            newErrors.password="Password must be at least 8 characters, with uppercase, numbers, and special characters";
+        if (!validatePassword(signInState.password)) {
+            newErrors.password = "Password must be at least 8 characters, with uppercase, numbers, and special characters";
         }
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
-    },[signInState.email,signInState.password] );
+    }, [signInState.email, signInState.password]);
 
     //Handler
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setSignInState((prev) => ({ ...prev, [name]: value }));
-  };
+        const { name, value } = e.target;
+        setSignInState((prev) => ({ ...prev, [name]: value }));
+    };
 
 
-  const handleSubmit = useCallback(
-    async (e: FormEvent) => {
-    e.preventDefault();
-    if(!validateForm()){
-        toast.error("Please fix the error in form");
-        return;
-    }
-    try {
-      const response = await API.post("/auth/login", signInState);
-      if(response){
-        toast.success("Sign In successful!");
-        // Stock the user token
-        localStorage.setItem("token", response.data.access_token);
-        navigate("/");
-        setErrors({});
-        
-      }
-      else{
-        toast.error("Check the username or password wrong")
-        setErrors({});
-        
-      }
-      
-    } catch (err: any) {
-        const message = err.response?.data?.message || "Login failed";
-        
-        toast.error(message);
-    }
-  },[signInState]
-  ) 
+    const handleSubmit = useCallback(
+        async (e: FormEvent) => {
+            e.preventDefault();
+            if (!validateForm()) {
+                toast.error("Please fix the error in form");
+                return;
+            }
+            try {
+                const response = await API.post("/auth/login", signInState);
+                console.log(response.data);
+                if (response) {
+                    toast.success("Sign In successful!");
+                    // Stock the user token
+                    localStorage.setItem("token", response.data.access_token);
+                    localStorage.setItem("user", JSON.stringify(response.data.user));
+                    navigate("/");
+                    setErrors({});
+
+                }
+                else {
+                    toast.error("Check the username or password wrong")
+                    setErrors({});
+
+                }
+
+            } catch (err: any) {
+                const message = err.response?.data?.message || "Login failed";
+                toast.error(message);
+            }
+        }, [signInState]
+    )
     return (
-    <Container maxWidth="xs">
-            <Paper elevation={10} sx={{marginTop:8, padding:2 }}>
+        <Container maxWidth="xs">
+            <Paper elevation={10} sx={{ marginTop: 8, padding: 2 }}>
                 <Avatar sx={{
-                        mx: "auto",
-                        bgColor:"primary.main",
-                        textAlign:"center",
-                        mb:1
-                    }}
+                    mx: "auto",
+                    bgColor: "primary.main",
+                    textAlign: "center",
+                    mb: 1
+                }}
                 >
-                 <MailLockOutlinedIcon></MailLockOutlinedIcon>   
+                    <MailLockOutlinedIcon></MailLockOutlinedIcon>
                 </Avatar>
-                <Typography component={"h1"} variant='h5' sx={{textAlign:"center"}}>Sign Up</Typography>
-                <Box component={"form"} noValidate sx={{mt:1}} onSubmit={handleSubmit}>
+                <Typography component={"h1"} variant='h5' sx={{ textAlign: "center" }}>Sign Up</Typography>
+                <Box component={"form"} noValidate sx={{ mt: 1 }} onSubmit={handleSubmit}>
                     <TextField
                         placeholder='Enter your email'
                         name="email"
                         type='email'
+                        value={signInState.email}
                         fullWidth
                         required
-                        sx={{mb:2}}
+                        sx={{ mb: 2 }}
                         //value={email}
                         onChange={handleInputChange}
                         error={!!errors.email}
@@ -104,9 +114,10 @@ export default function SignIn() {
                         placeholder='Enter your password'
                         name="password"
                         type={showPassword ? 'text' : 'password'}
+                        value={signInState.password}
                         fullWidth
                         required
-                        sx={{mb:2}}
+                        sx={{ mb: 2 }}
                         //value={password}
                         onChange={handleInputChange}
                         error={!!errors.password}
@@ -121,11 +132,11 @@ export default function SignIn() {
                                         {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
                                     </IconButton>
                                 </InputAdornment>)
-                            }}
+                        }}
                     />
-                    <Button type='submit' variant='contained' fullWidth sx={{mt:1}}>Sign Up</Button>
+                    <Button type='submit' variant='contained' fullWidth sx={{ mt: 1 }}>Sign In</Button>
                 </Box>
             </Paper>
         </Container>
-  )
+    )
 }
